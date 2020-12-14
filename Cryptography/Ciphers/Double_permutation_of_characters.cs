@@ -81,6 +81,8 @@ namespace Cryptography.Ciphers
                 for (int j = 1; j < keyWord1.Length + 1; ++j)       // keyWord 1 = СКАНЕР
                 {                                                   // keyWord 2 = 4123 
                     TableEncode[0, j] = keyWord1[j - 1];
+                    if (n == Text.Length)
+                        TableEncode[i, j] = ' ';
                     TableEncode[i, j] = Text[n];
                     n++;
                 }
@@ -124,6 +126,8 @@ namespace Cryptography.Ciphers
                 for (int j = 1; j < SortedkeyWord2.Length + 1; ++j)       // keyWord 1 = СКАНЕР
                 {                                                   // keyWord 2 = 4123 
                     TableDecode[0, j] = SortedkeyWord2[j - 1];
+                    if (n == Text.Length )
+                        TableDecode[i, j] = ' ';
                     TableDecode[i, j] = Text[n];
                     n++;
                 }
