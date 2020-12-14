@@ -24,6 +24,14 @@ namespace Cryptography.Ciphers
 		private char[,] FirstTable;//Таблица смены столбцов
 		private char[,] SecondTable;//Таблица смены строк
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="firstKey"></param>
+		/// <param name="secondKey"></param>
+		/// <param name="text"></param>
+		/// <param name="Height"></param>
+		/// <param name="Alphabet"></param>
 		public Wheatstone_Double_Square(string firstKey, string secondKey, string text, out int Height, out string Alphabet)
 		{
 			this.text = text;//Исходный текст
@@ -69,7 +77,8 @@ namespace Cryptography.Ciphers
 		}
 
 		/// <summary>
-		/// Return encode string by Wheatstone double square
+		/// Возвращает засшифрованную строку
+		/// Return encode string
 		/// </summary>
 		/// <returns></returns>
 		public string Encode()
@@ -106,7 +115,8 @@ namespace Cryptography.Ciphers
 		}
 
 		/// <summary>
-		/// Return decode string by Wheatstone double square
+		/// Возвращает расшифрованную строку
+		/// Return decode string 
 		/// </summary>
 		/// <returns></returns>
 		public string Decode()

@@ -19,6 +19,13 @@ namespace Cryptography.Ciphers
         private char[] EuABCwithoutKeyWord;
         private char[] EuABCwithCipher = new char[26];
 
+        /// <summary>
+        /// keyNum - ключевое число от 0 до 25, keyWord - ключевое слово, 
+        /// text - текст, который нужно зашифровать или расшифровать.
+        /// </summary>
+        /// <param name="keyNum"></param>
+        /// <param name="keyWord"></param>
+        /// <param name="text"></param>
         public Caesar_Cipher(string keyNum, string keyWord, string text)
         {
             EuABC = strEuABC.ToCharArray();
@@ -59,7 +66,8 @@ namespace Cryptography.Ciphers
         }
 
         /// <summary>
-        /// Return encode string by Ceasar cipher
+        /// Возвращает зашифрованную строку
+        /// Return encode string
         /// </summary>
         /// <returns></returns>
         public string Encode()
@@ -75,7 +83,8 @@ namespace Cryptography.Ciphers
         }
 
         /// <summary>
-        /// Return decode string by Ceasar cipher
+        /// Возвращает расшифрованную строку
+        /// Return decode string
         /// </summary>
         /// <returns></returns>
         public string Decode()

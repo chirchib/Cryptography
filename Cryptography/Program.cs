@@ -6,7 +6,6 @@ namespace Cryptography
     {
         static void Main(string[] args)
         {
-            
         }
     }
 }

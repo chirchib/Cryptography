@@ -15,11 +15,17 @@ namespace Cryptography.Ciphers
         private Dictionary<char, char> EuEncoding = new Dictionary<char, char>();
         private Dictionary<char, char> EuDecoding = new Dictionary<char, char>();
 
-
-        // a и b должны быть взаимно простыми
-        // НОД (а, 26(длина алфавита)) = 1 !!!
-        // Добавить какую-то проверку !
-
+        /// <summary>
+        /// В данном преобразовании буква, соответствующая число t, 
+        /// заменяется на букву, соотвутствующую числовому значению (A*t+B)mod m (m - длина алфавита)
+        /// A - первый ключ, В - второй ключ
+        /// A и B должны быть взаимно простыми
+        /// НОД (а, 26(длина алфавита)) = 1 !!!
+        /// text - текст, который нужно зашифровать или расшифровать.
+        /// </summary>
+        /// <param name="A"></param>
+        /// <param name="B"></param>
+        /// <param name="text"></param>
         public Affine_Caesar_Cipher(string A, string B, string text)
         {
             char[] EuABC = strEuABC.ToCharArray();
@@ -35,6 +41,7 @@ namespace Cryptography.Ciphers
         }
 
         /// <summary>
+        /// Возвращает зашифрованную строку
         /// Return encode string by Affine Ceasar cipher
         /// </summary>
         /// <returns></returns>
@@ -51,6 +58,7 @@ namespace Cryptography.Ciphers
         }
 
         /// <summary>
+        /// Возвращает расшифрованную строку
         /// Return decode string by Affine Ceasar cipher
         /// </summary>
         /// <returns></returns>

@@ -12,6 +12,14 @@ namespace Cryptography.Ciphers
         private char[,] TableEncode;
         private char[,] TableDecode;
 
+        /// <summary>
+        /// keyWord1 - первый ключ (Определяет перестановку столбцов)
+        /// keyWord2 - второй ключ (Определяет перестановку строк)
+        /// text - текст, который нужно зашифровать или расшифровать.
+        /// </summary>
+        /// <param name="keyWord1"></param>
+        /// <param name="keyWord2"></param>
+        /// <param name="Text"></param>
         public Double_permutation_of_characters(string keyWord1, string keyWord2, string Text)
         {
             this.keyWord1 = keyWord1.ToUpper();
@@ -20,7 +28,8 @@ namespace Cryptography.Ciphers
         }
 
         /// <summary>
-        /// Return encode string by double permutation of characters
+        /// Возвращает зашифрованную строку
+        /// Return encode string
         /// </summary>
         /// <returns></returns>
         public string Encoded()
@@ -40,7 +49,8 @@ namespace Cryptography.Ciphers
         }
 
         /// <summary>
-        /// Return decoded string by double permutation of characters
+        /// Возвращает расшифрованную строку
+        /// Return decoded string
         /// </summary>
         /// <returns></returns>
         public string Decoded()
