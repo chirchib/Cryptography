@@ -50,6 +50,31 @@ namespace Cryptography
                 new Double_permutation_of_characters(key21, key22, text22);
 
             Console.WriteLine("Расшифрованная фраза : " + decodecipher2.Decoded());
+
+            /*---------------------------------------*/
+            // Цезаря
+            string key31 = "14";
+            string key32 = "mykey";
+            string text31 = "vsemprivet";
+            Console.WriteLine("\nПример работы шифра Цезаря");
+            Console.WriteLine("Ключевое число : {0}\nКлюевое слово : {1}", key31, key32);
+            Console.WriteLine("Зашифруем фразу : {0}", text31);
+
+
+            Caesar_Cipher caesar_cipher = new Caesar_Cipher(key31, key32, text31);
+
+
+            Console.WriteLine("Зашифрованная фраза : " + caesar_cipher.Encode());
+
+            string text32 = caesar_cipher.Encode();
+            Console.WriteLine("Расшифруем фразу : " + text32);
+
+            Caesar_Cipher caesar_cipher2 =
+                new Caesar_Cipher(key31, key32, text32);
+
+            Console.WriteLine("Расшифрованная фраза : " + caesar_cipher2.Decode());
+
+
         }
     }
 }
