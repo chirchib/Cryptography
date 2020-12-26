@@ -6,189 +6,134 @@ namespace Ciphers
 {
     class DoublePermutationOfCharacters
     {
-        private string keyWord1;
-        private string keyWord2;
-        private string Text;
-        private char[,] TableEncode;
-        private char[,] TableDecode;
+		private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";//Набор сиволов
+		private string NewAlphabet = Alphabet;
+		private string text = "";
+		private int[] firstNumberKey;
+		private int[] secondNumberKey;
 
-        /// <summary>
-        /// keyWord1 - первый ключ (Определяет перестановку столбцов)
-        /// keyWord2 - второй ключ (Определяет перестановку строк)
-        /// text - текст, который нужно зашифровать или расшифровать.
-        /// </summary>
-        /// <param name="keyWord1"></param>
-        /// <param name="keyWord2"></param>
-        /// <param name="Text"></param>
-        public DoublePermutationOfCharacters(string keyWord1, string keyWord2, string Text)
-        {
-            this.keyWord1 = keyWord1.ToUpper();
-            this.keyWord2 = keyWord2.ToUpper();
-            this.Text = Text.ToUpper();
-        }
+		private string encrypt;//Зашифрованные данные
+		private string decrypt;//Дешифрованные данные
 
-        /// <summary>
-        /// Возвращает зашифрованную строку
-        /// Return encode string
-        /// </summary>
-        /// <returns></returns>
-        public string Encode()
-        {
-            string Code = "";
-            Encoding();
+		public int height;//Высота
+		private int width;//Широта
 
-            for (int i = 1; i < keyWord1.Length + 1; ++i)
-            {
-                for (int j = 1; j < keyWord2.Length + 1; ++j)       // keyWord 1 = СКАНЕР
-                {                                                   // keyWord 2 = 4123 
-                    Code += TableEncode[j, i].ToString();
-                }
-            }
+		private char[,] Table;//Таблица
+		private char[,] FirstTable;//Таблица смены столбцов
+		private char[,] SecondTable;//Таблица смены строк
 
-            return Code;
-        }
+		public DoublePermutationOfCharacters(string text, string firstKey, string secondKey, out int Height, out string Alphabet)
+		{
+			this.text = text;//Исходный текст
+			this.firstNumberKey = ConvertToNumber(firstKey);//Первый ключ
+			this.secondNumberKey = ConvertToNumber(secondKey);//Второй ключ
+			this.width = firstKey.Length;//Ширина таблицы
+			this.height = (int)Math.Ceiling(Convert.ToDouble(text.Length) / Convert.ToDouble(width));//Высота таблицы
+			this.Table = new char[height, width];//Исходная Таблица
+			this.FirstTable = new char[height, width];//Первое действие шифрования таблицы по столбцам
+			this.SecondTable = new char[height, width];//Второе действие шифрование таблицы по строкам
+			Height = height;//Возвращаем высоту таблицы
+			Alphabet = NewAlphabet;//Возвращаем алфавит
+		}
 
-        /// <summary>
-        /// Возвращает расшифрованную строку
-        /// Return decoded string
-        /// </summary>
-        /// <returns></returns>
-        public string Decode()
-        {
-            string Code = "";
-            Decoding();
 
-            for (int i = 1; i < keyWord2.Length + 1; ++i)
-            {
-                for (int j = 1; j < keyWord1.Length + 1; ++j)
-                {
-                    Code += TableDecode[j, i].ToString();
-                }
-            }
+		//Проверка ключа на число и запись в численный массив
+		private int[] ConvertToNumber(string key)
+		{
+			int[] NumberKey = new int[key.Length];
+			bool IsNumber = int.TryParse(key.Trim(), out int number);
+			if (IsNumber)//Для чисел
+			{
+				string str = number.ToString();
+				for (int i = 0; i < key.Length; i++)
+				{
+					NumberKey[i] = Convert.ToInt32(str[i]);
+				}
+			}
+			else//Для слов - привет -> 16 17 9 2 5 19
+			{
+				for (int i = 0; i < key.Length; i++)//Перебираем все символы ключа
+				{
+					NumberKey[i] = Alphabet.IndexOf(key[i]);
+				}
+			}
+			int[] NewNumberKey = (int[])NumberKey.Clone();
+			Array.Sort(NewNumberKey);
 
-            return Code;
-        }
+			for (int i = 0; i < NumberKey.Length; i++)//Упрощаем численную запись 16 17 9 2 5 19 -> 3 4 2 0 1 5
+			{
+				NumberKey[i] = Array.IndexOf(NewNumberKey, NumberKey[i]);//Прибавить 1 для 12345
+			}
+			return NumberKey;
+		}
 
-        private void Encoding()
-        {
-            TableEncode = new char[keyWord2.Length + 1, keyWord1.Length + 1];
+		//Зашифровать
+		public string Encode()
+		{
+			for (int i = 0, n = 0; i < height; i++)//Заполнение Таблицы исходным текстом
+			{
+				for (int j = 0; j < width; j++)
+				{
+					Table[i, j] = (text.Length == n) ? ' ' : text[n++];
+				}
+			}
+			for (int i = 0; i < height; i++)//Меняем столбцы местами
+			{
+				for (int j = 0; j < width; j++)
+				{
+					FirstTable[i, j] = Table[i, Array.IndexOf(firstNumberKey, j)];
+				}
+			}
+			for (int i = 0; i < height; i++)//Меняем строки местами
+			{
+				for (int j = 0; j < width; j++)
+				{
+					SecondTable[i, j] = FirstTable[Array.IndexOf(secondNumberKey, i), j];
+				}
+			}
+			for (int i = 0; i < width; i++)//Преобразуем таблицу в строку шифра
+			{
+				for (int j = 0; j < height; j++)
+				{
+					encrypt += SecondTable[j, i];
+				}
+			}
+			return encrypt;
+		}
 
-            int n = 0;
-            TableEncode[0, 0] = ' ';
-            for (int i = 1; i < keyWord2.Length + 1; ++i)
-            {
-                TableEncode[i, 0] = keyWord2[i - 1];
-                for (int j = 1; j < keyWord1.Length + 1; ++j)       // keyWord 1 = СКАНЕР
-                {                                                   // keyWord 2 = 4123 
-                    TableEncode[0, j] = keyWord1[j - 1];
-                    if (n == Text.Length)
-                        TableEncode[i, j] = ' ';
-                    TableEncode[i, j] = Text[n];
-                    n++;
-                }
-            }
-
-            // permutation of columns
-            for (int i = 1; i < keyWord1.Length; ++i)
-            {
-                for (int j = i + 1; j < keyWord1.Length + 1; ++j)
-                {
-                    if (TableEncode[0, i] > TableEncode[0, j])
-                        for (int k = 0; k < keyWord2.Length + 1; ++k)
-                            Swap(ref TableEncode[k, i], ref TableEncode[k, j]);
-                }
-            }
-
-            // permutation of lines
-            for (int i = 1; i < keyWord2.Length; ++i)
-            {
-                for (int j = i + 1; j < keyWord2.Length + 1; ++j)
-                {
-                    if (TableEncode[i, 0] > TableEncode[j, 0])
-                        for (int k = 0; k < keyWord1.Length + 1; ++k)
-                            Swap(ref TableEncode[i, k], ref TableEncode[j, k]);
-                }
-            }
-        }
-
-        private void Decoding()
-        {
-            TableDecode = new char[keyWord1.Length + 1, keyWord2.Length + 1];
-
-            char[] SortedkeyWord1 = SortString(keyWord1).ToCharArray();
-            char[] SortedkeyWord2 = SortString(keyWord2).ToCharArray();
-
-            int n = 0;
-            TableDecode[0, 0] = ' ';
-            for (int i = 1; i < SortedkeyWord1.Length + 1; ++i)
-            {
-                TableDecode[i, 0] = SortedkeyWord1[i - 1];
-                for (int j = 1; j < SortedkeyWord2.Length + 1; ++j)       // keyWord 1 = СКАНЕР
-                {                                                   // keyWord 2 = 4123 
-                    TableDecode[0, j] = SortedkeyWord2[j - 1];
-                    TableDecode[i, j] = Text[n];
-                    n++;
-                }
-            }
-
-            // permutation of columns
-            for (int i = 0; i < keyWord2.Length; ++i)
-            {
-                for (int j = i; j < keyWord2.Length; ++j)
-                {
-                    if (keyWord2[i] == SortedkeyWord2[j])
-                    {
-                        for (int k = 0; k < SortedkeyWord1.Length + 1; ++k)
-                            Swap(ref TableDecode[k, i + 1], ref TableDecode[k, j + 1]);
-
-                        Swap(ref SortedkeyWord2[i], ref SortedkeyWord2[j]);
-                    }
-                }
-            }
-
-            // permutation of lines
-            for (int i = 0; i < keyWord1.Length; ++i)
-            {
-                for (int j = i; j < keyWord1.Length; ++j)
-                {
-                    if (keyWord1[i] == SortedkeyWord1[j])
-                    {
-                        for (int k = 0; k < SortedkeyWord2.Length + 1; ++k)
-                            Swap(ref TableDecode[i + 1, k], ref TableDecode[j + 1, k]);
-
-                        Swap(ref SortedkeyWord1[i], ref SortedkeyWord1[j]);
-                    }
-                }
-            }
-
-        }
-
-        private void Swap(ref char A, ref char B)
-        {
-            char ch = A;
-            A = B;
-            B = ch;
-        }
-
-        private string SortString(string Text)
-        {
-            char[] text = Text.ToCharArray();
-            char temp;
-            for (int i = 0; i < text.Length - 1; i++)
-            {
-                for (int j = i + 1; j < text.Length; j++)
-                {
-                    if (text[i] > text[j])
-                    {
-                        temp = text[i];
-                        text[i] = text[j];
-                        text[j] = temp;
-                    }
-                }
-            }
-
-            return new string(text);
-        }
-    }
+		//Дешифровать
+		public string Decode()
+		{
+			for (int i = 0, n = 0; i < width; i++)//Запихиваем строку шифра в таблицу обратно
+			{
+				for (int j = 0; j < height; j++)
+				{
+					Table[j, i] = (text.Length == n) ? ' ' : text[n++];
+				}
+			}
+			for (int i = 0; i < height; i++)//Меняем строки местами
+			{
+				for (int j = 0; j < width; j++)
+				{
+					FirstTable[Array.IndexOf(secondNumberKey, i), j] = Table[i, j];
+				}
+			}
+			for (int i = 0; i < height; i++)//Меняем столбцы местами
+			{
+				for (int j = 0; j < width; j++)
+				{
+					SecondTable[i, Array.IndexOf(firstNumberKey, j)] = FirstTable[i, j];
+				}
+			}
+			for (int i = 0; i < height; i++)//Преобразуем таблицу в строку
+			{
+				for (int j = 0; j < width; j++)
+				{
+					decrypt += SecondTable[i, j];
+				}
+			}
+			return decrypt;
+		}
+	}
 }
 

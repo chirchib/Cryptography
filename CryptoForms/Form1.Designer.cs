@@ -37,7 +37,7 @@ namespace CryptoForms
             this.labelCaesarKeyString = new System.Windows.Forms.Label();
             this.labelCaesarKeyNum = new System.Windows.Forms.Label();
             this.textBoxCaesarKeyString = new System.Windows.Forms.TextBox();
-            this.textCaesarKeyNum = new System.Windows.Forms.TextBox();
+            this.textBoxCaesarKeyNum = new System.Windows.Forms.TextBox();
             this.richTextBoxCaesarIn = new System.Windows.Forms.RichTextBox();
             this.tabPageAffineCaesar = new System.Windows.Forms.TabPage();
             this.buttonAffineCaesarDecode = new System.Windows.Forms.Button();
@@ -48,7 +48,7 @@ namespace CryptoForms
             this.textBoxAffineCaesarKeyN = new System.Windows.Forms.TextBox();
             this.textBoxAffineCaesarKeyA = new System.Windows.Forms.TextBox();
             this.richTextBoxAffineCaesarIn = new System.Windows.Forms.RichTextBox();
-            this.tabPageWhearstoneDoubleSquare = new System.Windows.Forms.TabPage();
+            this.tabPageWheatstoneDoubleSquare = new System.Windows.Forms.TabPage();
             this.buttonWheatstoneDoubleSquareDecode = new System.Windows.Forms.Button();
             this.buttonWheatstoneDoubleSquareEncode = new System.Windows.Forms.Button();
             this.richTextBoxWheatstoneDoubleSquareOut = new System.Windows.Forms.RichTextBox();
@@ -69,7 +69,7 @@ namespace CryptoForms
             this.tabControl1.SuspendLayout();
             this.tabPageCaesar.SuspendLayout();
             this.tabPageAffineCaesar.SuspendLayout();
-            this.tabPageWhearstoneDoubleSquare.SuspendLayout();
+            this.tabPageWheatstoneDoubleSquare.SuspendLayout();
             this.tabPageDoublePoc.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +77,7 @@ namespace CryptoForms
             // 
             this.tabControl1.Controls.Add(this.tabPageCaesar);
             this.tabControl1.Controls.Add(this.tabPageAffineCaesar);
-            this.tabControl1.Controls.Add(this.tabPageWhearstoneDoubleSquare);
+            this.tabControl1.Controls.Add(this.tabPageWheatstoneDoubleSquare);
             this.tabControl1.Controls.Add(this.tabPageDoublePoc);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -93,14 +93,14 @@ namespace CryptoForms
             this.tabPageCaesar.Controls.Add(this.labelCaesarKeyString);
             this.tabPageCaesar.Controls.Add(this.labelCaesarKeyNum);
             this.tabPageCaesar.Controls.Add(this.textBoxCaesarKeyString);
-            this.tabPageCaesar.Controls.Add(this.textCaesarKeyNum);
+            this.tabPageCaesar.Controls.Add(this.textBoxCaesarKeyNum);
             this.tabPageCaesar.Controls.Add(this.richTextBoxCaesarIn);
             this.tabPageCaesar.Location = new System.Drawing.Point(4, 25);
             this.tabPageCaesar.Name = "tabPageCaesar";
             this.tabPageCaesar.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageCaesar.Size = new System.Drawing.Size(768, 397);
             this.tabPageCaesar.TabIndex = 0;
-            this.tabPageCaesar.Text = "Caesar";
+            this.tabPageCaesar.Text = "Система Цезаря с ключевым словом";
             this.tabPageCaesar.UseVisualStyleBackColor = true;
             // 
             // buttonbuttonCaesarDecode
@@ -111,6 +111,7 @@ namespace CryptoForms
             this.buttonbuttonCaesarDecode.TabIndex = 15;
             this.buttonbuttonCaesarDecode.Text = "Расшифровать";
             this.buttonbuttonCaesarDecode.UseVisualStyleBackColor = true;
+            this.buttonbuttonCaesarDecode.Click += new System.EventHandler(this.buttonbuttonCaesarDecode_Click);
             // 
             // buttonCaesarEncode
             // 
@@ -120,6 +121,7 @@ namespace CryptoForms
             this.buttonCaesarEncode.TabIndex = 14;
             this.buttonCaesarEncode.Text = "Зашифровать";
             this.buttonCaesarEncode.UseVisualStyleBackColor = true;
+            this.buttonCaesarEncode.Click += new System.EventHandler(this.buttonCaesarEncode_Click);
             // 
             // richTextBoxCaesarOut
             // 
@@ -155,13 +157,13 @@ namespace CryptoForms
             this.textBoxCaesarKeyString.Size = new System.Drawing.Size(127, 22);
             this.textBoxCaesarKeyString.TabIndex = 10;
             // 
-            // textCaesarKeyNum
+            // textBoxCaesarKeyNum
             // 
-            this.textCaesarKeyNum.CausesValidation = false;
-            this.textCaesarKeyNum.Location = new System.Drawing.Point(132, 174);
-            this.textCaesarKeyNum.Name = "textCaesarKeyNum";
-            this.textCaesarKeyNum.Size = new System.Drawing.Size(107, 22);
-            this.textCaesarKeyNum.TabIndex = 9;
+            this.textBoxCaesarKeyNum.CausesValidation = false;
+            this.textBoxCaesarKeyNum.Location = new System.Drawing.Point(132, 174);
+            this.textBoxCaesarKeyNum.Name = "textBoxCaesarKeyNum";
+            this.textBoxCaesarKeyNum.Size = new System.Drawing.Size(107, 22);
+            this.textBoxCaesarKeyNum.TabIndex = 9;
             // 
             // richTextBoxCaesarIn
             // 
@@ -186,7 +188,7 @@ namespace CryptoForms
             this.tabPageAffineCaesar.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageAffineCaesar.Size = new System.Drawing.Size(768, 397);
             this.tabPageAffineCaesar.TabIndex = 1;
-            this.tabPageAffineCaesar.Text = "Affine Caesar";
+            this.tabPageAffineCaesar.Text = "Афинная система подстановок Цезаря";
             this.tabPageAffineCaesar.UseVisualStyleBackColor = true;
             // 
             // buttonAffineCaesarDecode
@@ -257,23 +259,23 @@ namespace CryptoForms
             this.richTextBoxAffineCaesarIn.TabIndex = 8;
             this.richTextBoxAffineCaesarIn.Text = "";
             // 
-            // tabPageWhearstoneDoubleSquare
+            // tabPageWheatstoneDoubleSquare
             // 
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.buttonWheatstoneDoubleSquareDecode);
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.buttonWheatstoneDoubleSquareEncode);
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.richTextBoxWheatstoneDoubleSquareOut);
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.labelWheatstoneDoubleSquareKeyB);
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.labelWheatstoneDoubleSquareKeyA);
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.textBoxWheatstoneDoubleSquareKeyB);
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.textBoxWheatstoneDoubleSquareKeyA);
-            this.tabPageWhearstoneDoubleSquare.Controls.Add(this.richTextBoxWheatstoneDoubleSquareIn);
-            this.tabPageWhearstoneDoubleSquare.Location = new System.Drawing.Point(4, 25);
-            this.tabPageWhearstoneDoubleSquare.Name = "tabPageWhearstoneDoubleSquare";
-            this.tabPageWhearstoneDoubleSquare.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWhearstoneDoubleSquare.Size = new System.Drawing.Size(768, 397);
-            this.tabPageWhearstoneDoubleSquare.TabIndex = 2;
-            this.tabPageWhearstoneDoubleSquare.Text = "Whearstone Double Square";
-            this.tabPageWhearstoneDoubleSquare.UseVisualStyleBackColor = true;
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.buttonWheatstoneDoubleSquareDecode);
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.buttonWheatstoneDoubleSquareEncode);
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.richTextBoxWheatstoneDoubleSquareOut);
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.labelWheatstoneDoubleSquareKeyB);
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.labelWheatstoneDoubleSquareKeyA);
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.textBoxWheatstoneDoubleSquareKeyB);
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.textBoxWheatstoneDoubleSquareKeyA);
+            this.tabPageWheatstoneDoubleSquare.Controls.Add(this.richTextBoxWheatstoneDoubleSquareIn);
+            this.tabPageWheatstoneDoubleSquare.Location = new System.Drawing.Point(4, 25);
+            this.tabPageWheatstoneDoubleSquare.Name = "tabPageWheatstoneDoubleSquare";
+            this.tabPageWheatstoneDoubleSquare.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageWheatstoneDoubleSquare.Size = new System.Drawing.Size(768, 397);
+            this.tabPageWheatstoneDoubleSquare.TabIndex = 2;
+            this.tabPageWheatstoneDoubleSquare.Text = "Двойной квадрат Уитстона";
+            this.tabPageWheatstoneDoubleSquare.UseVisualStyleBackColor = true;
             // 
             // buttonWheatstoneDoubleSquareDecode
             // 
@@ -360,7 +362,7 @@ namespace CryptoForms
             this.tabPageDoublePoc.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageDoublePoc.Size = new System.Drawing.Size(768, 397);
             this.tabPageDoublePoc.TabIndex = 3;
-            this.tabPageDoublePoc.Text = "Double Permutation of characters";
+            this.tabPageDoublePoc.Text = "Метод двойной перестановки";
             this.tabPageDoublePoc.UseVisualStyleBackColor = true;
             // 
             // buttonDoublePocDecode
@@ -446,8 +448,8 @@ namespace CryptoForms
             this.tabPageCaesar.PerformLayout();
             this.tabPageAffineCaesar.ResumeLayout(false);
             this.tabPageAffineCaesar.PerformLayout();
-            this.tabPageWhearstoneDoubleSquare.ResumeLayout(false);
-            this.tabPageWhearstoneDoubleSquare.PerformLayout();
+            this.tabPageWheatstoneDoubleSquare.ResumeLayout(false);
+            this.tabPageWheatstoneDoubleSquare.PerformLayout();
             this.tabPageDoublePoc.ResumeLayout(false);
             this.tabPageDoublePoc.PerformLayout();
             this.ResumeLayout(false);
@@ -459,7 +461,7 @@ namespace CryptoForms
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageCaesar;
         private System.Windows.Forms.TabPage tabPageAffineCaesar;
-        private System.Windows.Forms.TabPage tabPageWhearstoneDoubleSquare;
+        private System.Windows.Forms.TabPage tabPageWheatstoneDoubleSquare;
         private System.Windows.Forms.TabPage tabPageDoublePoc;
         private System.Windows.Forms.Button buttonAffineCaesarDecode;
         private System.Windows.Forms.Button buttonAffineCaesarEncode;
@@ -491,7 +493,7 @@ namespace CryptoForms
         private System.Windows.Forms.Label labelCaesarKeyString;
         private System.Windows.Forms.Label labelCaesarKeyNum;
         private System.Windows.Forms.TextBox textBoxCaesarKeyString;
-        private System.Windows.Forms.TextBox textCaesarKeyNum;
+        private System.Windows.Forms.TextBox textBoxCaesarKeyNum;
         private System.Windows.Forms.RichTextBox richTextBoxCaesarIn;
     }
 }
