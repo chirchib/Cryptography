@@ -31,7 +31,7 @@ namespace CryptoForms
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageCaesar = new System.Windows.Forms.TabPage();
-            this.buttonbuttonCaesarDecode = new System.Windows.Forms.Button();
+            this.buttonCaesarDecode = new System.Windows.Forms.Button();
             this.buttonCaesarEncode = new System.Windows.Forms.Button();
             this.richTextBoxCaesarOut = new System.Windows.Forms.RichTextBox();
             this.labelCaesarKeyString = new System.Windows.Forms.Label();
@@ -45,8 +45,6 @@ namespace CryptoForms
             this.richTextBoxAffineCaesarOut = new System.Windows.Forms.RichTextBox();
             this.labelAffineCaesarKeyB = new System.Windows.Forms.Label();
             this.labelAffineCaesarKeyA = new System.Windows.Forms.Label();
-            this.textBoxAffineCaesarKeyN = new System.Windows.Forms.TextBox();
-            this.textBoxAffineCaesarKeyA = new System.Windows.Forms.TextBox();
             this.richTextBoxAffineCaesarIn = new System.Windows.Forms.RichTextBox();
             this.tabPageWheatstoneDoubleSquare = new System.Windows.Forms.TabPage();
             this.buttonWheatstoneDoubleSquareDecode = new System.Windows.Forms.Button();
@@ -66,6 +64,8 @@ namespace CryptoForms
             this.textBoxDoublePocKeyB = new System.Windows.Forms.TextBox();
             this.textBoxDoublePocKeyA = new System.Windows.Forms.TextBox();
             this.richTextBoxDoublePocIn = new System.Windows.Forms.RichTextBox();
+            this.textBoxAffineCaesarKeyB = new System.Windows.Forms.TextBox();
+            this.textBoxAffineCaesarKeyA = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageCaesar.SuspendLayout();
             this.tabPageAffineCaesar.SuspendLayout();
@@ -87,7 +87,7 @@ namespace CryptoForms
             // 
             // tabPageCaesar
             // 
-            this.tabPageCaesar.Controls.Add(this.buttonbuttonCaesarDecode);
+            this.tabPageCaesar.Controls.Add(this.buttonCaesarDecode);
             this.tabPageCaesar.Controls.Add(this.buttonCaesarEncode);
             this.tabPageCaesar.Controls.Add(this.richTextBoxCaesarOut);
             this.tabPageCaesar.Controls.Add(this.labelCaesarKeyString);
@@ -103,15 +103,15 @@ namespace CryptoForms
             this.tabPageCaesar.Text = "Система Цезаря с ключевым словом";
             this.tabPageCaesar.UseVisualStyleBackColor = true;
             // 
-            // buttonbuttonCaesarDecode
+            // buttonCaesarDecode
             // 
-            this.buttonbuttonCaesarDecode.Location = new System.Drawing.Point(500, 171);
-            this.buttonbuttonCaesarDecode.Name = "buttonbuttonCaesarDecode";
-            this.buttonbuttonCaesarDecode.Size = new System.Drawing.Size(138, 28);
-            this.buttonbuttonCaesarDecode.TabIndex = 15;
-            this.buttonbuttonCaesarDecode.Text = "Расшифровать";
-            this.buttonbuttonCaesarDecode.UseVisualStyleBackColor = true;
-            this.buttonbuttonCaesarDecode.Click += new System.EventHandler(this.buttonbuttonCaesarDecode_Click);
+            this.buttonCaesarDecode.Location = new System.Drawing.Point(500, 171);
+            this.buttonCaesarDecode.Name = "buttonCaesarDecode";
+            this.buttonCaesarDecode.Size = new System.Drawing.Size(138, 28);
+            this.buttonCaesarDecode.TabIndex = 15;
+            this.buttonCaesarDecode.Text = "Расшифровать";
+            this.buttonCaesarDecode.UseVisualStyleBackColor = true;
+            this.buttonCaesarDecode.Click += new System.EventHandler(this.buttonCaesarDecode_Click);
             // 
             // buttonCaesarEncode
             // 
@@ -180,8 +180,8 @@ namespace CryptoForms
             this.tabPageAffineCaesar.Controls.Add(this.richTextBoxAffineCaesarOut);
             this.tabPageAffineCaesar.Controls.Add(this.labelAffineCaesarKeyB);
             this.tabPageAffineCaesar.Controls.Add(this.labelAffineCaesarKeyA);
-            this.tabPageAffineCaesar.Controls.Add(this.textBoxAffineCaesarKeyN);
             this.tabPageAffineCaesar.Controls.Add(this.textBoxAffineCaesarKeyA);
+            this.tabPageAffineCaesar.Controls.Add(this.textBoxAffineCaesarKeyB);
             this.tabPageAffineCaesar.Controls.Add(this.richTextBoxAffineCaesarIn);
             this.tabPageAffineCaesar.Location = new System.Drawing.Point(4, 25);
             this.tabPageAffineCaesar.Name = "tabPageAffineCaesar";
@@ -199,6 +199,7 @@ namespace CryptoForms
             this.buttonAffineCaesarDecode.TabIndex = 15;
             this.buttonAffineCaesarDecode.Text = "Расшифровать";
             this.buttonAffineCaesarDecode.UseVisualStyleBackColor = true;
+            this.buttonAffineCaesarDecode.Click += new System.EventHandler(this.buttonAffineCaesarDecode_Click);
             // 
             // buttonAffineCaesarEncode
             // 
@@ -208,6 +209,7 @@ namespace CryptoForms
             this.buttonAffineCaesarEncode.TabIndex = 14;
             this.buttonAffineCaesarEncode.Text = "Зашифровать";
             this.buttonAffineCaesarEncode.UseVisualStyleBackColor = true;
+            this.buttonAffineCaesarEncode.Click += new System.EventHandler(this.buttonAffineCaesarEncode_Click);
             // 
             // richTextBoxAffineCaesarOut
             // 
@@ -221,35 +223,20 @@ namespace CryptoForms
             // labelAffineCaesarKeyB
             // 
             this.labelAffineCaesarKeyB.AutoSize = true;
-            this.labelAffineCaesarKeyB.Location = new System.Drawing.Point(239, 177);
+            this.labelAffineCaesarKeyB.Location = new System.Drawing.Point(6, 177);
             this.labelAffineCaesarKeyB.Name = "labelAffineCaesarKeyB";
             this.labelAffineCaesarKeyB.Size = new System.Drawing.Size(56, 17);
             this.labelAffineCaesarKeyB.TabIndex = 12;
-            this.labelAffineCaesarKeyB.Text = "Ключ B";
+            this.labelAffineCaesarKeyB.Text = "Ключ A";
             // 
             // labelAffineCaesarKeyA
             // 
             this.labelAffineCaesarKeyA.AutoSize = true;
-            this.labelAffineCaesarKeyA.Location = new System.Drawing.Point(5, 177);
+            this.labelAffineCaesarKeyA.Location = new System.Drawing.Point(249, 177);
             this.labelAffineCaesarKeyA.Name = "labelAffineCaesarKeyA";
             this.labelAffineCaesarKeyA.Size = new System.Drawing.Size(56, 17);
             this.labelAffineCaesarKeyA.TabIndex = 11;
-            this.labelAffineCaesarKeyA.Text = "Ключ A";
-            // 
-            // textBoxAffineCaesarKeyN
-            // 
-            this.textBoxAffineCaesarKeyN.Location = new System.Drawing.Point(301, 174);
-            this.textBoxAffineCaesarKeyN.Name = "textBoxAffineCaesarKeyN";
-            this.textBoxAffineCaesarKeyN.Size = new System.Drawing.Size(193, 22);
-            this.textBoxAffineCaesarKeyN.TabIndex = 10;
-            // 
-            // textBoxAffineCaesarKeyA
-            // 
-            this.textBoxAffineCaesarKeyA.CausesValidation = false;
-            this.textBoxAffineCaesarKeyA.Location = new System.Drawing.Point(67, 174);
-            this.textBoxAffineCaesarKeyA.Name = "textBoxAffineCaesarKeyA";
-            this.textBoxAffineCaesarKeyA.Size = new System.Drawing.Size(166, 22);
-            this.textBoxAffineCaesarKeyA.TabIndex = 9;
+            this.labelAffineCaesarKeyA.Text = "Ключ B";
             // 
             // richTextBoxAffineCaesarIn
             // 
@@ -435,6 +422,23 @@ namespace CryptoForms
             this.richTextBoxDoublePocIn.TabIndex = 8;
             this.richTextBoxDoublePocIn.Text = "";
             // 
+            // textBoxAffineCaesarKeyB
+            // 
+            this.textBoxAffineCaesarKeyB.CausesValidation = false;
+            this.textBoxAffineCaesarKeyB.Location = new System.Drawing.Point(311, 174);
+            this.textBoxAffineCaesarKeyB.Name = "textBoxAffineCaesarKeyB";
+            this.textBoxAffineCaesarKeyB.Size = new System.Drawing.Size(183, 22);
+            this.textBoxAffineCaesarKeyB.TabIndex = 9;
+            this.textBoxAffineCaesarKeyB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAffineCaesarKeyB_KeyPress);
+            // 
+            // textBoxAffineCaesarKeyA
+            // 
+            this.textBoxAffineCaesarKeyA.Location = new System.Drawing.Point(68, 174);
+            this.textBoxAffineCaesarKeyA.Name = "textBoxAffineCaesarKeyA";
+            this.textBoxAffineCaesarKeyA.Size = new System.Drawing.Size(175, 22);
+            this.textBoxAffineCaesarKeyA.TabIndex = 10;
+            this.textBoxAffineCaesarKeyA.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAffineCaesarKeyA_KeyPress);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -468,8 +472,6 @@ namespace CryptoForms
         private System.Windows.Forms.RichTextBox richTextBoxAffineCaesarOut;
         private System.Windows.Forms.Label labelAffineCaesarKeyB;
         private System.Windows.Forms.Label labelAffineCaesarKeyA;
-        private System.Windows.Forms.TextBox textBoxAffineCaesarKeyN;
-        private System.Windows.Forms.TextBox textBoxAffineCaesarKeyA;
         private System.Windows.Forms.RichTextBox richTextBoxAffineCaesarIn;
         private System.Windows.Forms.Button buttonWheatstoneDoubleSquareDecode;
         private System.Windows.Forms.Button buttonWheatstoneDoubleSquareEncode;
@@ -487,7 +489,7 @@ namespace CryptoForms
         private System.Windows.Forms.TextBox textBoxDoublePocKeyB;
         private System.Windows.Forms.TextBox textBoxDoublePocKeyA;
         private System.Windows.Forms.RichTextBox richTextBoxDoublePocIn;
-        private System.Windows.Forms.Button buttonbuttonCaesarDecode;
+        private System.Windows.Forms.Button buttonCaesarDecode;
         private System.Windows.Forms.Button buttonCaesarEncode;
         private System.Windows.Forms.RichTextBox richTextBoxCaesarOut;
         private System.Windows.Forms.Label labelCaesarKeyString;
@@ -495,6 +497,8 @@ namespace CryptoForms
         private System.Windows.Forms.TextBox textBoxCaesarKeyString;
         private System.Windows.Forms.TextBox textBoxCaesarKeyNum;
         private System.Windows.Forms.RichTextBox richTextBoxCaesarIn;
+        private System.Windows.Forms.TextBox textBoxAffineCaesarKeyA;
+        private System.Windows.Forms.TextBox textBoxAffineCaesarKeyB;
     }
 }
 

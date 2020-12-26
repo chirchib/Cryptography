@@ -19,92 +19,64 @@ namespace CryptoForms
         }
 
         /// <summary>
-        /// Проверка на коректность ввода ключей 4 шифра
+        /// Нажатие на кнопку Зашифровать в Двойном квдарате Уитстона
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="Alphabet"></param>
-        /// <returns></returns>
-        private bool IsCorrectText(string str, string Alphabet)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonWheatstoneDoubleSquareEncode_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(str.Trim(), out int number))
+            try
             {
-                return false;
+                string text = richTextBoxWheatstoneDoubleSquareIn.Text;
+                string keyA = textBoxWheatstoneDoubleSquareKeyA.Text;
+                string keyB = textBoxWheatstoneDoubleSquareKeyB.Text;
+                WheatstoneDoubleSquare wheatstoneDoubleSquare = new WheatstoneDoubleSquare(keyA, keyB, text);
+
+                richTextBoxWheatstoneDoubleSquareOut.Text = wheatstoneDoubleSquare.Encode();
             }
-            else
+            catch (Exception ex)
             {
-                int ch = 0;
-                for (int i = 0; i < str.Length; i++)
-                {
-                    for (int j = 0; j < Alphabet.Length; j++)
-                    {
-                        if (str[i].ToString() == Alphabet[j].ToString())
-                        {
-                            ch++;
-                        }
-                    }
-                }
-                return (str.Length == ch) ? false : true;
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        /// <summary>
+        /// Нажатие на кнопку Расшифровать в Двойном квдарате Уитстона
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonWheatstoneDoubleSquareDecode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string text = richTextBoxWheatstoneDoubleSquareIn.Text;
+                string keyA = textBoxWheatstoneDoubleSquareKeyA.Text;
+                string keyB = textBoxWheatstoneDoubleSquareKeyB.Text;
+                WheatstoneDoubleSquare wheatstoneDoubleSquare = new WheatstoneDoubleSquare(keyA, keyB, text);
+
+                richTextBoxWheatstoneDoubleSquareOut.Text = wheatstoneDoubleSquare.Decode();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Проверка на уникальность строки
+        /// Нажатие на кнопку Зашифровать в Методе двойной перестановки
         /// </summary>
-        /// <param name="str">Строка для проверки</param>
-        /// <returns></returns>
-        private bool IsUniqueString(string str)
-        {
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (str.IndexOf(str[i]) != str.LastIndexOf(str[i]))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-
-        private void buttonWheatstoneDoubleSquareEncode_Click(object sender, EventArgs e)
-        {
-            string text = richTextBoxWheatstoneDoubleSquareIn.Text;
-            string keyA = textBoxWheatstoneDoubleSquareKeyA.Text;
-            string keyB = textBoxWheatstoneDoubleSquareKeyB.Text;
-            WheatstoneDoubleSquare wheatstoneDoubleSquare = new WheatstoneDoubleSquare(keyA, keyB,text);
-
-            richTextBoxWheatstoneDoubleSquareOut.Text = wheatstoneDoubleSquare.Encode();
-
-
-        }
-
-        private void buttonWheatstoneDoubleSquareDecode_Click(object sender, EventArgs e)
-        {
-            string text = richTextBoxWheatstoneDoubleSquareIn.Text;
-            string keyA = textBoxWheatstoneDoubleSquareKeyA.Text;
-            string keyB = textBoxWheatstoneDoubleSquareKeyB.Text;
-            WheatstoneDoubleSquare wheatstoneDoubleSquare = new WheatstoneDoubleSquare(keyA, keyB, text);
-
-            richTextBoxWheatstoneDoubleSquareOut.Text = wheatstoneDoubleSquare.Decode();
-
-        }
-
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonDoublePocEncode_Click(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(textBoxDoublePocKeyA.Text))
-                    throw new Exception("Поле первого ключа обязательно к заполнению");
-                DoublePermutationOfCharacters doublePermutation = new DoublePermutationOfCharacters(richTextBoxDoublePocIn.Text, textBoxDoublePocKeyA.Text, textBoxDoublePocKeyB.Text, out int Height, out string Alphabet);
-                if (textBoxDoublePocKeyB.Text.Length != Height)
-                    throw new Exception($"Длина второго ключа должна равняться {Height}");
-                if (IsCorrectText(textBoxDoublePocKeyA.Text, Alphabet) || IsCorrectText(textBoxDoublePocKeyB.Text, Alphabet))
-                    throw new Exception($"Ключи должны быть в виде числа или слова (без комбинаций!)");
-                if (textBoxDoublePocKeyB.Text.Length > 10)
-                    throw new Exception($"Предельная длина 2 ключа, первый ключ должен быть длиннее");
-                if (IsUniqueString(textBoxDoublePocKeyA.Text) || IsUniqueString(textBoxDoublePocKeyB.Text))
-                    throw new Exception($"Ключи должны состоять из уникальных символов!");
 
-
+                DoublePermutationOfCharacters doublePermutation = 
+                    new DoublePermutationOfCharacters(
+                        richTextBoxDoublePocIn.Text, 
+                        textBoxDoublePocKeyA.Text, 
+                        textBoxDoublePocKeyB.Text);
                 richTextBoxDoublePocOut.Text = doublePermutation.Encode();
             }
             catch (Exception ex)
@@ -113,23 +85,21 @@ namespace CryptoForms
             }
         }
 
+        /// <summary>
+        /// Нажатие на кнопку Расшифровать в Методе двойной перестановки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonDoublePocDecode_Click(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(textBoxDoublePocKeyA.Text))
-                    throw new Exception("Поле первого ключа обязательно к заполнению");
-                DoublePermutationOfCharacters doublePermutation = new DoublePermutationOfCharacters(richTextBoxDoublePocIn.Text, textBoxDoublePocKeyA.Text, textBoxDoublePocKeyB.Text, out int Height, out string Alphabet);
-                if (textBoxDoublePocKeyB.Text.Length != Height)
-                    throw new Exception($"Длина второго ключа должна равняться {Height}");
-                if (IsCorrectText(textBoxDoublePocKeyA.Text, Alphabet) || IsCorrectText(textBoxDoublePocKeyB.Text, Alphabet))
-                    throw new Exception($"Ключи должны быть в виде числа или слова (без комбинаций!)");
-                if (textBoxDoublePocKeyB.Text.Length > 10)
-                    throw new Exception($"Предельная длина 2 ключа, первый ключ должен быть длиннее");
-                if (IsUniqueString(textBoxDoublePocKeyA.Text) || IsUniqueString(textBoxDoublePocKeyB.Text))
-                    throw new Exception($"Ключи должны состоять из уникальных символов!");
 
-
+                DoublePermutationOfCharacters doublePermutation =
+                    new DoublePermutationOfCharacters(
+                        richTextBoxDoublePocIn.Text,
+                        textBoxDoublePocKeyA.Text,
+                        textBoxDoublePocKeyB.Text);
                 richTextBoxDoublePocOut.Text = doublePermutation.Decode();
             }
             catch (Exception ex)
@@ -139,24 +109,106 @@ namespace CryptoForms
 
         }
 
+        /// <summary>
+        /// Нажатие на кнопку Зашифровать в Система Цезаря с ключевым словом
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCaesarEncode_Click(object sender, EventArgs e)
         {
-            string text = richTextBoxCaesarIn.Text;
-            string keyNum = textBoxCaesarKeyNum.Text;
-            string keyString = textBoxCaesarKeyString.Text;
-            CaesarCipher caesarCipher = new CaesarCipher(keyNum, keyString, text);
+            try
+            {
+                string text = richTextBoxCaesarIn.Text;
+                string keyNum = textBoxCaesarKeyNum.Text;
+                string keyString = textBoxCaesarKeyString.Text;
+                CaesarCipher caesarCipher = new CaesarCipher(keyString, Convert.ToInt32(keyNum), text);
+                richTextBoxCaesarOut.Text = caesarCipher.Encode();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-            richTextBoxCaesarOut.Text = caesarCipher.Encode();
+        }
+        /// <summary>
+        /// Нажатие на кнопку Расшифровать в Система Цезаря с ключевым словом
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonCaesarDecode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string text = richTextBoxCaesarIn.Text;
+                string keyNum = textBoxCaesarKeyNum.Text;
+                string keyString = textBoxCaesarKeyString.Text;
+                CaesarCipher caesarCipher = new CaesarCipher(keyString, Convert.ToInt32(keyNum), text);
+                richTextBoxCaesarOut.Text = caesarCipher.Decode();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void buttonbuttonCaesarDecode_Click(object sender, EventArgs e)
-        {
-            string text = richTextBoxCaesarIn.Text;
-            string keyNum = textBoxCaesarKeyNum.Text;
-            string keyString = textBoxCaesarKeyString.Text;
-            CaesarCipher caesarCipher = new CaesarCipher(keyNum, keyString, text);
 
-            richTextBoxCaesarOut.Text = caesarCipher.Decode();
+        /// <summary>
+        /// Нажатие на кнопку Зашифровать в Афинная система подстановок Цезаря
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonAffineCaesarEncode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string text = richTextBoxAffineCaesarIn.Text;
+                string keyA = textBoxAffineCaesarKeyB.Text;
+                string keyB = textBoxAffineCaesarKeyA.Text;
+                AffineCaesarCipher affineCaesar = new AffineCaesarCipher(Convert.ToInt32(keyA), Convert.ToInt32(keyB), text);
+                richTextBoxAffineCaesarOut.Text = affineCaesar.Encode();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Нажатие на кнопку Расшифровать в Афинная система подстановок Цезаря
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonAffineCaesarDecode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string text = richTextBoxAffineCaesarIn.Text;
+                string keyA = textBoxAffineCaesarKeyB.Text;
+                string keyB = textBoxAffineCaesarKeyB.Text;
+                AffineCaesarCipher affineCaesar = new AffineCaesarCipher(Convert.ToInt32(keyA), Convert.ToInt32(keyB), text);
+                richTextBoxAffineCaesarOut.Text = affineCaesar.Decode();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void textBoxAffineCaesarKeyA_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxAffineCaesarKeyB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
+    
 }

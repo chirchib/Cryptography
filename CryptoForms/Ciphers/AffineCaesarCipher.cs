@@ -6,72 +6,91 @@ namespace Ciphers
 {
     class AffineCaesarCipher
     {
-        private string strEuABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private char[] EuABC;
-        private int a;
-        private int b;
-        private string text;
+		private static string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!*/+-=_()%;:#";//Набор сиволов
+		private string newAlphabet;
 
-        private Dictionary<char, char> EuEncoding = new Dictionary<char, char>();
-        private Dictionary<char, char> EuDecoding = new Dictionary<char, char>();
+		private int[] arrNumber = new int[alphabet.Length];//Массив чисел, соответствующих алфавиту
+		private int[] newArrNumber = new int[alphabet.Length];//Зашифрованный массив чисел
 
-        /// <summary>
-        /// В данном преобразовании буква, соответствующая число t, 
-        /// заменяется на букву, соотвутствующую числовому значению (A*t+B)mod m (m - длина алфавита)
-        /// A - первый ключ, В - второй ключ
-        /// A и B должны быть взаимно простыми
-        /// НОД (а, 26(длина алфавита)) = 1 !!!
-        /// text - текст, который нужно зашифровать или расшифровать.
-        /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
-        /// <param name="text"></param>
-        public AffineCaesarCipher(string A, string B, string text)
-        {
-            char[] EuABC = strEuABC.ToCharArray();
-            this.a = Convert.ToInt32(a);
-            this.b = Convert.ToInt32(b);
-            this.text = text;
+		private string encrypt = "";
+		private string decrypt = "";
 
-            for (int i = 0; i < EuABC.Length; i++)
-            {
-                EuEncoding.Add(EuABC[i], EuABC[(a * i + b) % EuABC.Length]);
-                EuDecoding.Add(EuABC[(a * i + b) % EuABC.Length], EuABC[i]);
-            }
-        }
+		private string text;//Входной текст
 
-        /// <summary>
-        /// Возвращает зашифрованную строку
-        /// Return encode string by Affine Ceasar cipher
-        /// </summary>
-        /// <returns></returns>
-        public string Encode()
-        {
-            string code = "";
+		private int alphabetLength = alphabet.Length;//Количество элементов в алфавите
+		private int firstKey;//Первый ключ
+		private int secondKey;//Второй ключ
 
-            foreach (char symbol in text)
-            {
-                code += EuEncoding[symbol].ToString();
-            }
+		public AffineCaesarCipher(int keyA, int keyB, string text)
+		{
+			if (Gcd(keyA, alphabetLength) != 1)
+				throw new Exception($"Первый ключ должен быть взаимно простым с числом {alphabetLength}!");
+			if (keyA < 0 || keyB < 0)
+				throw new Exception($"Ключи должны быть положительными!");
+			this.firstKey = keyA;
+			this.secondKey = keyB;
+			this.text = text;
+		}
+		/// <summary>
+		/// Заполнить численный алфавит ArrNumber значениями от 0 до конца алфавита
+		/// </summary>
+		private void alphabetNumber()
+		{
+			for (int i = 0; i < alphabetLength; i++)
+				arrNumber[i] = i;
+		}
 
-            return code;
-        }
+		/// <summary>
+		/// Зашифровать численный алфавит NewArrNumber
+		/// </summary>
+		private void newAlphabetNumber()
+		{
+			for (int i = 0; i < alphabetLength; i++)
+			{
+				newArrNumber[i] = (firstKey * arrNumber[i] + secondKey) % alphabetLength;
+			}
+		}
 
-        /// <summary>
-        /// Возвращает расшифрованную строку
-        /// Return decode string by Affine Ceasar cipher
-        /// </summary>
-        /// <returns></returns>
-        public string Decode()
-        {
-            string code = "";
+		private string cipherDerivation()
+		{
+			alphabetNumber();//Заполнить численный алфавит ArrNumber значениями от 0 до конца алфавита
+			newAlphabetNumber();//Зашифровать численный алфавит NewArrNumber
+			for (int i = 0; i < alphabetLength; i++)
+			{
+				newAlphabet += alphabet[newArrNumber[i]];
+			}
+			return newAlphabet;
+		}
 
-            foreach (char symbol in text)
-            {
-                code += EuDecoding[symbol].ToString();
-            }
 
-            return code;
-        }
-    }
+		public string Encode()//Зашифрованный Алфавит
+		{
+			string Cipher = cipherDerivation();
+			for (int i = 0; i < text.Length; i++)
+			{
+				int index = alphabet.IndexOf(text[i]);
+				encrypt += (index != -1) ? Cipher[index] : text[i];
+			}
+			return encrypt;
+		}
+
+		public string Decode()//Расшированный текст
+		{
+			string Cipher = cipherDerivation();
+			for (int i = 0; i < text.Length; i++)
+			{
+				int index = Cipher.IndexOf(text[i]);
+				decrypt += (index != -1) ? alphabet[index] : text[i];
+			}
+			return decrypt;
+		}
+		private int Gcd(int A, int B)
+		{
+			if (A == B)
+				return A;
+			if (A > B)
+				(A, B) = (B, A);
+			return Gcd(A, B - A);
+		}
+	}
 }

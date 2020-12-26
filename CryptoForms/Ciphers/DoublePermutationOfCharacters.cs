@@ -22,7 +22,42 @@ namespace Ciphers
 		private char[,] FirstTable;//Таблица смены столбцов
 		private char[,] SecondTable;//Таблица смены строк
 
-		public DoublePermutationOfCharacters(string text, string firstKey, string secondKey, out int Height, out string Alphabet)
+		private bool isCorrectText(string str, string Alphabet)
+		{
+			if (int.TryParse(str.Trim(), out int number))
+			{
+				return false;
+			}
+			else
+			{
+				int ch = 0;
+				for (int i = 0; i < str.Length; i++)
+				{
+					for (int j = 0; j < Alphabet.Length; j++)
+					{
+						if (str[i].ToString() == Alphabet[j].ToString())
+						{
+							ch++;
+						}
+					}
+				}
+				return (str.Length == ch) ? false : true;
+			}
+		}
+
+		private bool isUniqueString(string str)
+		{
+			for (int i = 0; i < str.Length; i++)
+			{
+				if (str.IndexOf(str[i]) != str.LastIndexOf(str[i]))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public DoublePermutationOfCharacters(string text, string firstKey, string secondKey)
 		{
 			this.text = text;//Исходный текст
 			this.firstNumberKey = ConvertToNumber(firstKey);//Первый ключ
@@ -32,8 +67,16 @@ namespace Ciphers
 			this.Table = new char[height, width];//Исходная Таблица
 			this.FirstTable = new char[height, width];//Первое действие шифрования таблицы по столбцам
 			this.SecondTable = new char[height, width];//Второе действие шифрование таблицы по строкам
-			Height = height;//Возвращаем высоту таблицы
-			Alphabet = NewAlphabet;//Возвращаем алфавит
+
+			if (string.IsNullOrEmpty(text)) throw new Exception("Поле первого ключа обязательно к заполнению");
+			if (secondKey.Length != height)
+				throw new Exception($"Длина второго ключа должна равняться {height}");
+			if (isCorrectText(firstKey, NewAlphabet) || isCorrectText(secondKey, NewAlphabet))
+				throw new Exception($"Ключи должны быть в виде числа или слова (без комбинаций!)");
+			if (secondKey.Length > 10)
+				throw new Exception($"Предельная длина 2 ключа, первый ключ должен быть длиннее");
+			if (isUniqueString(firstKey) || isUniqueString(secondKey))
+				throw new Exception($"Ключи должны состоять из уникальных символов!");
 		}
 
 

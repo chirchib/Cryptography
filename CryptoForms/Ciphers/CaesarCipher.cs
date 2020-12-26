@@ -7,96 +7,100 @@ namespace Ciphers
 {
     class CaesarCipher
     {
-        private string strEuABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private char[] EuABC;
-        int KeyNum = Convert.ToInt32(Console.ReadLine());
-        string KeyWord;
-        private string text;
+		/// <summary>
+		/// Алфавит символов
+		/// </summary>
+		private static string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!*/+-=_()%;:#";//Набор сиволов
 
-        private Dictionary<char, char> EuEncoding = new Dictionary<char, char>();
-        private Dictionary<char, char> EuDecoding = new Dictionary<char, char>();
+		/// <summary>
+		/// Числовой ключ сдвига
+		/// </summary>
+		private int numberKey;
+		/// <summary>
+		/// Ключевое слово
+		/// </summary>
+		private string lineKey;
+		/// <summary>
+		/// Текст
+		/// </summary>
+		private string text;
 
-        private char[] EuABCwithoutKeyWord;
-        private char[] EuABCwithCipher = new char[26];
+		private string encrypt;
+		private string decrypt;
 
-        /// <summary>
-        /// keyNum - ключевое число от 0 до 25, keyWord - ключевое слово, 
-        /// text - текст, который нужно зашифровать или расшифровать.
-        /// </summary>
-        /// <param name="keyNum"></param>
-        /// <param name="keyWord"></param>
-        /// <param name="text"></param>
-        public CaesarCipher(string keyNum, string keyWord, string text)
-        {
-            EuABC = strEuABC.ToCharArray();
-            this.KeyNum = Convert.ToInt32(keyNum);
-            this.KeyWord = new string(keyWord.Distinct().ToArray()).Replace(" ", "").ToUpper(); ; // Удаляет пробелы и повторяющиеся символы
-            this.text = text;
-            
-            foreach (char symbol in KeyWord)
-            {
-                strEuABC = strEuABC.Remove(strEuABC.IndexOf(symbol), 1);
-            }
-            char[] EuABCwithoutKeyWord = strEuABC.ToCharArray();
+		public CaesarCipher(string LineKey, int NumberKey = 0, string Text = "")
+		{
+			this.numberKey = NumberKey;
+			this.lineKey = LineKey;
+			this.text = Text;
+		}
+		/// <summary>
+		/// Вывод
+		/// </summary>
+		/// <returns></returns>
+		private string derivation()
+		{
+			char[] reserveAlphabet = alphabet.ToCharArray(); 
+			 lineKey = new string(lineKey.Distinct().ToArray()).Replace(" ", "");
 
-            int k = 0; // auxiliary index 
-            for (int i = KeyNum, j = 0; j < KeyWord.Length || i < EuABC.Length; j++, i++)
-            {
-                if (j < KeyWord.Length)
-                {
-                    EuABCwithCipher[i] = KeyWord[j];
-                }
-                else
-                {
-                    EuABCwithCipher[i] = EuABCwithoutKeyWord[k];
-                    k++;
-                }
-            }
-            for (int i = 0; i < KeyNum; i++)
-            {
-                EuABCwithCipher[i] = EuABCwithoutKeyWord[k];
-                k++;
-            }
+			numberKey %= reserveAlphabet.Length;
+			for (int i = 0, IndexOfKey = 0; i < reserveAlphabet.Length; i++)
+			{
+				if (IndexOfKey != lineKey.Length)
+				{
+					if (numberKey == reserveAlphabet.Length)
+					{
+						numberKey = 0;
+					}
+					reserveAlphabet[numberKey] = lineKey[IndexOfKey];
+					numberKey++; IndexOfKey++;
+				}
+			}
+			string residualAlphabet = alphabet;
+			for (int i = 0; i < lineKey.Length; i++)//Алфавит без Ключевого слова
+			{
+				residualAlphabet = residualAlphabet.Replace(lineKey[i].ToString(), "");
+			}
 
-            for (int i = 0; i < EuABC.Length; i++)
-            {
-                EuEncoding.Add(EuABC[i], EuABCwithCipher[i]);
-                EuDecoding.Add(EuABCwithCipher[i], EuABC[i]);
-            }
-        }
+			for (int i = 0, k = 0; i < reserveAlphabet.Length && k < residualAlphabet.Length; i++, k++)
+			{
+				if (numberKey == reserveAlphabet.Length)
+				{
+					numberKey = 0;
+				}
+				reserveAlphabet[numberKey++] = residualAlphabet[k];
+			}
+			return new string(reserveAlphabet);
+		}
 
-        /// <summary>
-        /// Возвращает зашифрованную строку
-        /// Return encode string
-        /// </summary>
-        /// <returns></returns>
-        public string Encode()
-        {
-            string code = "";
+		/// <summary>
+		/// Шифрование
+		/// </summary>
+		/// <returns></returns>
+		public string Encode()
+		{
+			string cipher = derivation();
+			for (int i = 0; i < text.Length; i++)
+			{
+				int index = alphabet.IndexOf(text[i]);
+				encrypt += (index != -1) ? cipher[index] : text[i];
+			}
+			return encrypt;
+		}
 
-            foreach (char symbol in text)
-            {
-                code += EuEncoding[symbol].ToString();
-            }
-
-            return code;
-        }
-
-        /// <summary>
-        /// Возвращает расшифрованную строку
-        /// Return decode string
-        /// </summary>
-        /// <returns></returns>
-        public string Decode()
-        {
-            string code = "";
-
-            foreach (char symbol in text)
-            {
-                code += EuDecoding[symbol].ToString();
-            }
-
-            return code;
-        }
-    }
+		/// <summary>
+		/// Дешифрование
+		/// </summary>
+		/// <returns></returns>
+		public string Decode()
+		{
+			string сipher = derivation();
+			for (int i = 0; i < text.Length; i++)
+			{
+				int index = сipher.IndexOf(text[i]);
+				decrypt += (index != -1) ? alphabet[index] : text[i];
+			}
+			return decrypt;
+		}
+	}
 }
