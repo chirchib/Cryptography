@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 
 
-namespace Cryptography.Ciphers
+namespace Ciphers
 {
-	class Wheatstone_Double_Square
+	class WheatstoneDoubleSquare
 	{
 		//private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!*/+-=_()%;:#";//Набор сиволов
 		//Перемешанный алфавит для повышения качества шифра
@@ -37,7 +37,7 @@ namespace Cryptography.Ciphers
 		/// <param name="firstKey"></param>
 		/// <param name="secondKey"></param>
 		/// <param name="text"></param>
-		public Wheatstone_Double_Square(string firstKey, string secondKey, string text)
+		public WheatstoneDoubleSquare(string firstKey, string secondKey, string text)
 		{
 			//Удаление повторяющихся символов из первого ключа
 			this.firstKey = new string(firstKey.Distinct().ToArray()).Replace(" ", "");
@@ -98,7 +98,7 @@ namespace Cryptography.Ciphers
 		/// Return encode string
 		/// </summary>
 		/// <returns></returns>
-		public string Encoded()
+		public string Encode()
 		{
 			CipherDerivation();
 			string Pair = "";
@@ -119,7 +119,7 @@ namespace Cryptography.Ciphers
 		/// Return decode string 
 		/// </summary>
 		/// <returns></returns>
-		public string Decoded()
+		public string Decode()
 		{
 			SetFirstSquare();
 			SetSecondSquare();

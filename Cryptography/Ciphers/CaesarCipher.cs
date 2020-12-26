@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Cryptography.Ciphers
 {
-    class Caesar_Cipher
+    class CaesarCipher
     {
         private string strEuABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private char[] EuABC;
@@ -26,7 +26,7 @@ namespace Cryptography.Ciphers
         /// <param name="keyNum"></param>
         /// <param name="keyWord"></param>
         /// <param name="text"></param>
-        public Caesar_Cipher(string keyNum, string keyWord, string text)
+        public CaesarCipher(string keyNum, string keyWord, string text)
         {
             EuABC = strEuABC.ToCharArray();
             this.KeyNum = Convert.ToInt32(keyNum);

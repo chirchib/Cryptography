@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Cryptography.Ciphers
 {
-    class Double_permutation_of_characters
+    class DoublePermutationOfCharacters
     {
         private string keyWord1;
         private string keyWord2;
@@ -20,7 +20,7 @@ namespace Cryptography.Ciphers
         /// <param name="keyWord1"></param>
         /// <param name="keyWord2"></param>
         /// <param name="Text"></param>
-        public Double_permutation_of_characters(string keyWord1, string keyWord2, string Text)
+        public DoublePermutationOfCharacters(string keyWord1, string keyWord2, string Text)
         {
             this.keyWord1 = keyWord1.ToUpper();
             this.keyWord2 = keyWord2.ToUpper();

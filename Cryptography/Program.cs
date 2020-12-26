@@ -15,16 +15,16 @@ namespace Cryptography
             Console.WriteLine("Ключ 1 : {0}\nКлюч 2 : {1}", key11, key12);
             Console.WriteLine("Зашифруем фразу : " + text11);
 
-            Wheatstone_Double_Square encodecipher1 =
-                new Wheatstone_Double_Square(key11, key12, text11);
+            WheatstoneDoubleSquare encodecipher1 =
+                new WheatstoneDoubleSquare(key11, key12, text11);
 
             Console.WriteLine("Зашифрованная фраза : " + encodecipher1.Encoded());
 
             string text12 = "6oчFЙtFQ!.r!БмrФ";
             Console.WriteLine("Расшифруем фразу : " + text12);
 
-            Wheatstone_Double_Square decodecipher1 =
-               new Wheatstone_Double_Square(key11, key12, text12);
+            WheatstoneDoubleSquare decodecipher1 =
+               new WheatstoneDoubleSquare(key11, key12, text12);
 
             Console.WriteLine("Расшифрованная фраза : " + decodecipher1.Decoded());
 
@@ -37,8 +37,8 @@ namespace Cryptography
             Console.WriteLine("Зашифруем фразу : {0}", text21);
 
             
-            Double_permutation_of_characters encodecipher2 =
-                new Double_permutation_of_characters(key21, key22, text21);
+            DoublePermutationOfCharacters encodecipher2 =
+                new DoublePermutationOfCharacters(key21, key22, text21);
             
 
             Console.WriteLine("Зашифрованная фраза : " + encodecipher2.Encoded());
@@ -46,35 +46,10 @@ namespace Cryptography
             string text22 = "ЙЛЕСП ЕЕЫОМИ ЬНТАИНМНРЗС";
             Console.WriteLine("Расшифруем фразу : " + text22);
 
-            Double_permutation_of_characters decodecipher2 =
-                new Double_permutation_of_characters(key21, key22, text22);
+            DoublePermutationOfCharacters decodecipher2 =
+                new DoublePermutationOfCharacters(key21, key22, text22);
 
             Console.WriteLine("Расшифрованная фраза : " + decodecipher2.Decoded());
-
-            /*---------------------------------------*/
-            // Цезаря
-            string key31 = "14";
-            string key32 = "mykey";
-            string text31 = "vsemprivet";
-            Console.WriteLine("\nПример работы шифра Цезаря");
-            Console.WriteLine("Ключевое число : {0}\nКлюевое слово : {1}", key31, key32);
-            Console.WriteLine("Зашифруем фразу : {0}", text31);
-
-
-            Caesar_Cipher caesar_cipher = new Caesar_Cipher(key31, key32, text31);
-
-
-            Console.WriteLine("Зашифрованная фраза : " + caesar_cipher.Encode());
-
-            string text32 = caesar_cipher.Encode();
-            Console.WriteLine("Расшифруем фразу : " + text32);
-
-            Caesar_Cipher caesar_cipher2 =
-                new Caesar_Cipher(key31, key32, text32);
-
-            Console.WriteLine("Расшифрованная фраза : " + caesar_cipher2.Decode());
-
-
         }
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cryptography.Ciphers
+namespace Ciphers
 {
-    class Affine_Caesar_Cipher
+    class AffineCaesarCipher
     {
         private string strEuABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private char[] EuABC;
@@ -26,7 +26,7 @@ namespace Cryptography.Ciphers
         /// <param name="A"></param>
         /// <param name="B"></param>
         /// <param name="text"></param>
-        public Affine_Caesar_Cipher(string A, string B, string text)
+        public AffineCaesarCipher(string A, string B, string text)
         {
             char[] EuABC = strEuABC.ToCharArray();
             this.a = Convert.ToInt32(a);

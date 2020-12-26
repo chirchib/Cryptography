@@ -46,6 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ciphers\AffineCaesarCipher.cs" />
+    <Compile Include="Ciphers\CaesarCipher.cs" />
+    <Compile Include="Ciphers\DoublePermutationOfCharacters.cs" />
+    <Compile Include="Ciphers\ShamirProtocol.cs" />
+    <Compile Include="Ciphers\WheatstoneDoubleSquare.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
