@@ -1,14 +1,6 @@
 ﻿using System;
 using Cryptography.Ciphers;
 
-namespace Cryptography
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-			using System;
-			using Cryptography.Ciphers;
 
 namespace Cryptography
 	{
@@ -119,7 +111,3 @@ namespace Cryptography
 			//    
 		}
 	}
-
-
-}
-}
